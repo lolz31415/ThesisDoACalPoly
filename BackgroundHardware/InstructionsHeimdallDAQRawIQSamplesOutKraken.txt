@@ -1,0 +1,76 @@
+There is a simple and easy way to record the IQ data coming from the DAQ subsystem, especially made for later analysis purposes. 
+Please find the IQ recorder here: https://github.com/krakenrf/heimdall_iq_rec/tree/development
+
+All this is stored under: C:\Users\mathe\Desktop\SpringQuarter2024\Thesis Related\Kraken Hardware Resources
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+After starting and connecting the application to the DAQ subsystem, you should be able to record IQ samples. 
+To run the code, you have to install the requirements from the requirements.txt and configure the iq_rec_config.ini. 
+You may have to create "_logs" folder into the root directory of the repository.
+
+In order to be able to record IQ samples from the DAQ chain, you also have to set the "output_interface" to "eth" in the "daq_chain_config.ini" file of the DAQ. 
+The iq data is recorded into iq frames (header+payload) with .iqf extensions. 
+That's all. 
+After you recorded the iq samples you can load them with this script:
+https://github.com/petotamas/VEGA_database_tools/blob/master/IQRecordTools.py 
+At this repository you can find other useful tools to analyse the iq data. 
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+DO I NEED THESE ON LINUX LAPTOP CONNECTED TO JETSON OR THE JETSON ITSELF
+
+requiremenets.txt 
+
+numpy
+sshkeyboard
+configparser
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+i1_rec_config.ini 
+
+[iq_record]
+daq_ip_addr=127.0.0.1
+daq_port=5000
+iq_record_path=/home/krakenrf
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+start_recorder.sh: 
+
+#!/bin/sh
+
+# Remove old logfiles
+rm _logs/*.log
+
+# Start IQ rec
+python3 _src/IQStreamer.py 2> _logs/iq_recorder.log
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+About STDERR (2>): 
+How to use this for pre-determined or controllable number of snapshots for the Kraken SDR (snapshots to use for Covariance Matrix) 
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+Intel 8260NGW Doesn't work unless tape off I2C pins with Jetson Nano: 
+https://forums.developer.nvidia.com/t/nano-wont-boot-with-intel-8260ngw-mini-pcie-wifi-card/73091
+
+Waveshare AC8265 Wireless NIC Module for Jetson Nano 
+
+https://forums.developer.nvidia.com/t/intel-8265ngw-jetson-nano-ap-station-on-the-same-card/243332
+
+Installation for 8265: https://jetsonhacks.com/2019/04/08/jetson-nano-intel-wifi-and-bluetooth/ 
+
+Edimax USB wifi interface 
+
+Switch for WAN & LAN for Linux PC for data from jetson nano/kraken  
+
+Determine TX on: 
+
+"C:\Users\mathe\Desktop\Radio and School Software\rtl433_win64_11112016\rtl_433.exe"
+
+--------------------------------------------------------------------------------------------------------------------------------
